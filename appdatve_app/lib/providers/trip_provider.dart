@@ -9,22 +9,37 @@ class TripProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  Future<void> searchTrips(String from, String to, String date) async {
+  Future<void> searchTrips(
+    String from,
+    String to,
+    String date, {
+    int? companyId,
+  }) async {
     _isLoading = true;
     notifyListeners();
     try {
-      // Giả sử API: /api/Trips/search?from=...&to=...&date=...
+      final Map<String, dynamic> queryParams = {
+        "from": from,
+        "to": to,
+        "date": date,
+      };
+
+      // Nếu có truyền companyId thì thêm vào query string
+      if (companyId != null) {
+        queryParams["companyId"] = companyId.toString();
+      }
+
       final response = await _api.send.get(
         "/Trips/search",
-        queryParameters: {"from": from, "to": to, "date": date},
+        queryParameters: queryParams,
       );
 
       _trips = (response.data as List)
           .map((item) => Trip.fromJson(item))
           .toList();
     } catch (e) {
-      debugPrint("Lỗi tìm chuyến xe: $e");
-      _trips = []; // Xóa danh sách cũ nếu lỗi
+      _trips = [];
+      debugPrint("Lỗi Search: $e");
     } finally {
       _isLoading = false;
       notifyListeners();
