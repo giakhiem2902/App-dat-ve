@@ -1,0 +1,23 @@
+name: appdatve_app
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  dio: ^5.4.1                # Giao tiếp API
+  provider: ^6.1.2           # Quản lý trạng thái
+  intl: ^0.19.0              # Định dạng ngày tháng, tiền tệ
+  flutter_secure_storage: ^9.0.0 # Lưu JWT Token an toàn
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
